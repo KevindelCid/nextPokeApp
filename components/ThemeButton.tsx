@@ -30,8 +30,8 @@ const ThemeButton = () => {
             px-3
             text-sm
             fixed
-            right-14
-            bottom-14
+            right-10
+            bottom-10
             z-50
 
             bg-gradient-to-r 
