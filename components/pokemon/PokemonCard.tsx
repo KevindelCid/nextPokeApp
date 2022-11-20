@@ -1,43 +1,62 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { SmallPokemon } from '../../interfaces';
+import { localFavorites } from '../../utils';
+import FavoriteButton from '../ui/FavoriteButton';
 
 
 
 interface Props {
-    pokemon: SmallPokemon
+    pokemon: SmallPokemon;
+    onClick?: () => void;
 }
 
 
-export const PokemonCard: FC<Props> = ({ pokemon }) => {
+export const PokemonCard: FC<Props> = ({ pokemon, onClick }) => {
+
+
+
+
+
+
 
 
     const router = useRouter();
 
     const handleClick = () => {
-        router.push(`/pokemon/${pokemon.id}`)
+        router.push(`/pokemon/name/${pokemon.name}`)
     }
+
+
+
+    const [isFavorite, setIsFavorite] = useState(localFavorites.pokemonIsFavorite(pokemon.id))
+
+
+
     return (
         <li className="flex flex-col w-72 items-center
             bg-slate-50
             dark:bg-slate-700
             transition duration-300 ease-out  
             rounded
-            hover:skew-y-1
-            hover:skew-x-1
+           
             active:bg-black
+            relative
             "
-            onClick={handleClick}
+            onClick={onClick}
         >
+            <FavoriteButton type='circle' onClick={() => localFavorites.onToggleFavorite(pokemon.id, setIsFavorite, isFavorite)} isFavorite={isFavorite} />
 
             <Image
-                src={pokemon.img}
-                alt={pokemon.name}
+                src={typeof pokemon.img === 'undefined' ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg` : pokemon.img}
+                alt={typeof pokemon.name === 'undefined' ? '' : pokemon.name}
                 width={100}
                 height={100}
+                onClick={handleClick}
+                className='cursor-pointer'
             />
-            <span className="capitalize">#{pokemon.id} - {pokemon.name}</span>
+            <span onClick={handleClick} className="capitalize cursor-pointer ">#{pokemon.id} - {pokemon.name}</span>
         </li>
     );
 };

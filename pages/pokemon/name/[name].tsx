@@ -1,17 +1,17 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { pokeApi } from '../../api';
-import { Layout } from '../../components/layouts';
-import { Pokemon } from '../../interfaces';
-import FavoriteButton from '../../components/ui/FavoriteButton'
-import { getPokemonData, localFavorites } from '../../utils';
+import React, { useState } from 'react';
+import { pokeApi } from '../../../api';
+import { Layout } from '../../../components/layouts';
+import { Pokemon, PokemonListResponse } from '../../../interfaces';
+import FavoriteButton from '../../../components/ui/FavoriteButton'
+import { getPokemonData, localFavorites } from '../../../utils';
 
 interface Props {
     pokemon: Pokemon;
 }
 
-const PokemonPage: NextPage<Props> = ({ pokemon }) => {
+const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
 
 
     const [isFavorite, setIsFavorite] = useState(localFavorites.pokemonIsFavorite(pokemon.id))
@@ -86,7 +86,11 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
 
-    const pokemonsPages = [...Array(151)].map((val, i) => `${i + 1}`)
+    // const pokemonsPages = [...Array(151)].map((val, i) => `${i + 1}`)
+
+
+    const { data } = await pokeApi.get<PokemonListResponse>(`/pokemon?limit=151`)
+
 
 
     return {
@@ -96,9 +100,10 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
         //     }
         // ],
 
-        paths: pokemonsPages.map(id => ({
-            params: { id }
-        })),
+        paths: data.results.map(poke => ({
+            params: { name: poke.name }
+        })
+        ),
         fallback: false
     }
 
@@ -108,21 +113,16 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 
-
-    const { id } = params as { id: string };
-
-
-
-
+    const { name } = params as { name: string };
 
 
     return {
         props: {
-            pokemon: await getPokemonData(id)
+            pokemon: await getPokemonData(name)
         }
     }
 }
 
 
 
-export default PokemonPage;
+export default PokemonByNamePage;
