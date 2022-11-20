@@ -32,9 +32,9 @@ export const Navbar = () => {
                     <span className='pt-2 hover:text-stone-200  transition duration-300 ease-out'>Favorites</span>
                 </NextLink>
 
-                <NextLink href='/' passHref>
+                {/* <NextLink href='/' passHref>
                     <span className='pt-2 hover:text-stone-200   transition duration-300 ease-out '>Pokedex</span>
-                </NextLink>
+                </NextLink> */}
 
 
             </section>
