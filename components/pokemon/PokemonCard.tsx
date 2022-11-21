@@ -57,7 +57,7 @@ export const PokemonCard: FC<Props> = ({ pokemon, onClick }) => {
             <FavoriteButton type='circle' onClick={() => localFavorites.onToggleFavorite(pokemon.id, setIsFavorite, isFavorite)} isFavorite={isFavorite} />
 
             <Image
-                src={typeof pokemon.img === 'undefined' ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg` : pokemon.img}
+                src={typeof pokemon.img === 'undefined' ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png` : pokemon.img}
                 alt={typeof pokemon.name === 'undefined' ? '' : pokemon.name}
                 width={100}
                 height={100}

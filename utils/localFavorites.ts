@@ -2,11 +2,6 @@ import { Dispatch, SetStateAction } from "react"
 import localFavorites from "./localFavorites"
 
 
-
-import confetti from 'canvas-confetti'
-
-
-
 const pokemonIsFavorite =(id: number): boolean =>{
 
     if( typeof window === 'undefined' ) return false
